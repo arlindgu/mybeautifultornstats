@@ -1,20 +1,12 @@
 "use client";
 
-import { useEffect, useState } from "react";
 import Header from "@/components/header";
-import { getBasic, ApiUrlBasic } from "@/lib/apicalls";
+import { useBasic } from "@/hooks/useBasic";
 
 export default function DashboardPage() {
-  const [username, setUsername] = useState<string | null>(null);
 
-  useEffect(() => {
-    const key = localStorage.getItem("api_key");
-    if (!key) return;
+  const username = useBasic();
 
-    getBasic(ApiUrlBasic, key).then((name) => {
-      setUsername(name["name"]);
-    });
-  }, []);
 
   return (
     <div className="p-8">

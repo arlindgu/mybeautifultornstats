@@ -1,6 +1,10 @@
-export const ApiUrlBasic = "https://api.torn.com/v2/user?selections=basic"
+export const ApiEndpoints = {
+  basic: "https://api.torn.com/v2/user?selections=basic",
+  battlestats: "https://api.torn.com/v2/user?selections=battlestats",
+}
 
-export async function getBasic (url: string, apikey: string) {
+
+export async function getBasic (url: string = ApiEndpoints.basic, apikey: string) {
   const res = await fetch(url, {
     method: "GET",
     headers: {
@@ -12,7 +16,18 @@ export async function getBasic (url: string, apikey: string) {
   return data;
 }
 
-const sleep = (ms: number) => new Promise(resolve => setTimeout(resolve, ms));
+export async function getBattleStats (url: string = ApiEndpoints.battlestats, apikey: string) {
+  const res = await fetch(url, {
+    method: "GET",
+    headers: {
+      Authorization: `ApiKey ${apikey}`,
+    }
+  });
+
+  const data = await res.json()
+  
+  return data;
+}
 
 
 const fetchLogs = async (url: string) => {
