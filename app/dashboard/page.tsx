@@ -1,17 +1,18 @@
 "use client";
 
 import Header from "@/components/header";
-import { useBasic } from "@/hooks/useBasic";
+import { useProfile } from "@/hooks/useProfile";
+import { Button } from "@/components/ui/button";
 
-export default function DashboardPage() {
+export default function WelcomePage() {
 
-  const username = useBasic();
+    const { username, player_id } = useProfile();
 
 
-  return (
-    <div className="p-8">
-      <Header />
-      <h1 className="text-2xl font-bold">Welcome {username ?? "..."}</h1>
-    </div>
-  );
+    return (
+        <div>
+            <Header />
+            
+        </div>
+    );
 }

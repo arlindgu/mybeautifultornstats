@@ -15,31 +15,11 @@ import { useRouter } from "next/navigation";
 export default function Header() {
     const router = useRouter();
     return (
-        <header className="items-center p-4 bg-gray-800">
-            <Button onClick={() => {
-                localStorage.removeItem("api_key")
-                router.push("/");
-            }
-            }
-            >Logout</Button>
-            <NavigationMenu>
-                <NavigationMenuList>
-                    <NavigationMenuItem className="">
-                        <NavigationMenuTrigger>Item One</NavigationMenuTrigger>
-                        <NavigationMenuContent>
-                            <NavigationMenuLink>Link</NavigationMenuLink>
-                        </NavigationMenuContent>
-                    </NavigationMenuItem>
-                </NavigationMenuList>
-                <NavigationMenuList>
-                    <NavigationMenuItem className="">
-                        <NavigationMenuTrigger>Item One</NavigationMenuTrigger>
-                        <NavigationMenuContent>
-                            <NavigationMenuLink>Penis</NavigationMenuLink>
-                        </NavigationMenuContent>
-                    </NavigationMenuItem>
-                </NavigationMenuList>
-            </NavigationMenu>
+        <header className="flex flex-row gap-4 justify-between p-5 bg-zinc-900 text-white outline-1 outline-zinc-800">
+            <div className="flex flex-col">
+            <span className="font-extrabold text-2xl">MBTS</span>
+            <span className="text-xs font-extralight">My Beautiful Torn Stats</span>
+            </div>
         </header>
 
     );
