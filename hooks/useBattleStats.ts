@@ -3,13 +3,15 @@
 import { useEffect, useState } from "react";
 import { getBattleStats, ApiEndpoints } from "@/lib/apicalls";
 import { saveData, getDb } from "@/lib/db";
+import { get } from "http";
 
 export function useBattleStats() {
+
     const [stats, setStats] = useState<{
-        strength: string | null,
-        defense: string | null,
-        speed: string | null,
-        dexterity: string | null
+        strength: number  | null,
+        defense: number | null,
+        speed: number | null,
+        dexterity: number | null
       }>({
         strength: null,
         defense: null,
@@ -30,10 +32,10 @@ export function useBattleStats() {
       });
 
       const [statsModifier, setStatsModifiers] = useState<{
-        strengthModifier: string | null,
-        defenseModifier: string | null,
-        speedModifier: string | null,
-        dexterityModifier: string | null
+        strengthModifier: number | null,
+        defenseModifier: number | null,
+        speedModifier: number | null,
+        dexterityModifier: number | null
       }>({
         strengthModifier: null,
         defenseModifier: null,
@@ -49,50 +51,53 @@ export function useBattleStats() {
             
           const db = await getDb();
           if (!db || !db.objectStoreNames.contains("battlestats")) return;
-          const result = await db.get("battlestats", "battlestats");
-          if (result) {
+
+          const iDBBattleStats = await db.get("battlestats", "battlestats");
+          const APIBattleStats = await getBattleStats(ApiEndpoints.battlestats, key);
+          console.log("Checking if Update on battlestats");
+          const isSame = JSON.stringify(APIBattleStats) === JSON.stringify(iDBBattleStats);
+
+          if (isSame) {
             setStatsModifiers({
-              strengthModifier: result["strength_modifier"],
-              defenseModifier: result["defense_modifier"],
-              speedModifier: result["speed_modifier"],
-              dexterityModifier: result["dexterity_modifier"]
+              strengthModifier: iDBBattleStats["strength_modifier"],
+              defenseModifier: iDBBattleStats["defense_modifier"],
+              speedModifier: iDBBattleStats["speed_modifier"],
+              dexterityModifier: iDBBattleStats["dexterity_modifier"]
             });
             setStats({
-              strength: result["strength"],
-              defense: result["defense"],
-              speed: result["speed"],
-              dexterity: result["dexterity"]
+              strength: iDBBattleStats["strength"],
+              defense: iDBBattleStats["defense"],
+              speed: iDBBattleStats["speed"],
+              dexterity: iDBBattleStats["dexterity"]
             });
             setStatsInfo({
-              strengthInfo: result["strength_info"],
-              defenseInfo: result["defense_info"],
-              speedInfo: result["speed_info"],
-              dexterityInfo: result["dexterity_info"]
+              strengthInfo: iDBBattleStats["strength_info"],
+              defenseInfo: iDBBattleStats["defense_info"],
+              speedInfo: iDBBattleStats["speed_info"],
+              dexterityInfo: iDBBattleStats["dexterity_info"]
             });
-            console.log("LOADED FROM IDB");
-            return;
+            console.log("API & iDB are the same, using iDB values");
           } else {
-            const battlestats = await getBattleStats(ApiEndpoints.battlestats, key);
             setStatsModifiers({
-              strengthModifier: result["strength_modifier"],
-              defenseModifier: result["defense_modifier"],
-              speedModifier: result["speed_modifier"],
-              dexterityModifier: result["dexterity_modifier"]
+              strengthModifier: APIBattleStats["strength_modifier"],
+              defenseModifier: APIBattleStats["defense_modifier"],
+              speedModifier: APIBattleStats["speed_modifier"],
+              dexterityModifier: APIBattleStats["dexterity_modifier"]
             });
             setStats({
-              strength: battlestats["strength"],
-              defense: battlestats["defense"],
-              speed: battlestats["speed"],
-              dexterity: battlestats["dexterity"]
+              strength: APIBattleStats["strength"],
+              defense: APIBattleStats["defense"],
+              speed: APIBattleStats["speed"],
+              dexterity: APIBattleStats["dexterity"]
             });
             setStatsInfo({
-              strengthInfo: result["strength_info"],
-              defenseInfo: result["defense_info"],
-              speedInfo: result["speed_info"],
-              dexterityInfo: result["dexterity_info"]
+              strengthInfo: APIBattleStats["strength_info"],
+              defenseInfo: APIBattleStats["defense_info"],
+              speedInfo: APIBattleStats["speed_info"],
+              dexterityInfo: APIBattleStats["dexterity_info"]
             });
-            console.log("API REQUEST MADE");
-            saveData("battlestats", battlestats, "battlestats");
+            console.log("API & iDB are NOT same, updating iDB values, using API values");
+            saveData("battlestats", APIBattleStats, "battlestats");
           }
         }
   
