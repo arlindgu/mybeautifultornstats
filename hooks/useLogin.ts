@@ -1,9 +1,9 @@
-import { ApiEndpoints, getBasic } from '@/lib/apicalls';
+import { ApiEndpoints, getProfile } from '@/lib/apicalls';
 import { useState, useEffect } from 'react';
 
 export function useLogin() {
   const [apiKey, setApiKey] = useState<string | null>(null);
-
+  
   useEffect(() => {
     const key = localStorage.getItem("api_key");
     if (key) {
@@ -17,7 +17,7 @@ export function useLogin() {
 export async function checkApiKey() {
 
     const apiKey = (document.getElementById("api_key") as HTMLInputElement).value;
-    let response = await getBasic(ApiEndpoints.basic, apiKey);
+    let response = await getProfile(ApiEndpoints.basic, apiKey);
 
     if (response["error"]) {
         console.log("Error:" , response);

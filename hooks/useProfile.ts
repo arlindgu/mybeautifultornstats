@@ -1,5 +1,3 @@
-"use client";
-
 import { useEffect, useState } from "react";
 import { getProfile, ApiEndpoints } from "@/lib/apicalls";
 import { saveData, getDb } from "@/lib/db";
