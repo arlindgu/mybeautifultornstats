@@ -1,5 +1,6 @@
 "use client";
 import { useRouter } from "next/navigation";
+import { Button } from "@/components/ui/button";
 
 export default function Header() {
 
@@ -9,6 +10,9 @@ export default function Header() {
             <div className="flex flex-col">
             <span className="font-extrabold text-2xl">MBTS</span>
             <span className="text-xs font-extralight">My Beautiful Torn Stats</span>
+            </div>
+            <div className="flex flex-row gap-4 w-full justify-center items-center">
+            <Button variant="outline" onClick={() => router.push("/battlestats")}>Battlestats</Button>
             </div>
         </header>
 

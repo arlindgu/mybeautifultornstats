@@ -53,6 +53,8 @@ export async function getBattleStats (url: string = ApiEndpoints.battlestats, ap
   const data = await res.json()
   return data;
 }
+
+
 /*
 const run = async () => {
   let result = await fetchLogs("firstFetchUrl");
