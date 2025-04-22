@@ -4,11 +4,19 @@ import { Input } from "@/components/ui/input";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { checkApiKey, useLogin } from "@/hooks/useLogin"
 import { useRouter } from "next/navigation";
+import { Loader2 } from "lucide-react"
 
 export default function Home() {
 
+
+
   const router = useRouter()
   async function handleLogin() {
+
+    document.getElementById("login-button")!.setAttribute("disabled", "true");
+    document.getElementById("loader")!.classList.remove("hidden");
+    document.getElementById("btn-text")!.classList.add("hidden");
+
     const success = await checkApiKey();
     if (success) {
       router.push("/welcome");
@@ -40,7 +48,11 @@ export default function Home() {
             </AlertDescription>
           </Alert>
 
-          <Button onClick={handleLogin} className="w-1/3">Login</Button>
+          <Button disabled={false} id="login-button" onClick={handleLogin} className="w-1/3">
+            <Loader2 id="loader" className="animate-spin hidden" />
+            <span id="btn-text">Login</span>
+          </Button>
+
         </div>
         <div className="flex flex-col gap-2 items-center justify-center w-full">
         <a className="font-[family-name:var(--font-geist-mono)] text-sm">We <b>DO NOT</b> store your API-Key</a>

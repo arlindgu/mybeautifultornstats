@@ -16,8 +16,6 @@ export function useLogin() {
 
 export async function checkApiKey() {
 
-
-
     const apiKey = (document.getElementById("api_key") as HTMLInputElement).value;
     let response = await getBasic(ApiEndpoints.basic, apiKey);
 

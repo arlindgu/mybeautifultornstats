@@ -3,8 +3,10 @@
 import Header from "@/components/header";
 import { useProfile } from "@/hooks/useProfile";
 import { Button } from "@/components/ui/button";
+import { useRouter } from "next/navigation";
 
 export default function WelcomePage() {
+  const router = useRouter();
 
   const { username, player_id } = useProfile();
 
@@ -24,7 +26,7 @@ export default function WelcomePage() {
       <a href="/infodata" className="underline text-sm">How will my data be stored?</a>
       <p className="text-sm font-bold text-red-400">If you want to chicken out, please press the bright red button.</p>
       <div className="flex flex-row gap-4">
-        <Button onClick={() => alert("fetching logs")}>Fetch my logs!</Button>
+        <Button onClick={() => router.push("/dashboard")}>Fetch my logs!</Button>
         <Button variant="destructive" onClick={() => alert("deleting everything and chickening out")}>Chicken out!</Button>
       </div>
 

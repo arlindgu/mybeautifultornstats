@@ -2,6 +2,18 @@ export const ApiEndpoints = {
   basic: "https://api.torn.com/v2/user?selections=basic",
   battlestats: "https://api.torn.com/v2/user?selections=battlestats",
   profile: "https://api.torn.com/v2/user?selections=profile"
+
+}
+
+export async function getLogs (url: string = ApiEndpoints.basic, apikey: string) {
+  const res = await fetch(url, {
+    method: "GET",
+    headers: {
+      Authorization: `ApiKey ${apikey}`,
+    }
+  });
+  const data = await res.json()
+  return data;
 }
 
 export async function getBasic (url: string = ApiEndpoints.basic, apikey: string) {
@@ -41,21 +53,6 @@ export async function getBattleStats (url: string = ApiEndpoints.battlestats, ap
   const data = await res.json()
   return data;
 }
-
-
-const fetchLogs = async (url: string) => {
-  const res = await fetch(url, {
-    method: "GET",
-    headers: {
-      Authorization: `ApiKey ${"ApiKey"}`,
-    },
-  });
-
-  const data = await res.json();
-  console.log(data);
-  return data;
-};
-
 /*
 const run = async () => {
   let result = await fetchLogs("firstFetchUrl");

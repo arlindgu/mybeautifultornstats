@@ -11,6 +11,9 @@ export async function getDb() {
       if (!db.objectStoreNames.contains("profile")) {
         db.createObjectStore("profile");
       }
+      if (!db.objectStoreNames.contains("battlestats")) {
+        db.createObjectStore("battlestats");
+      }
     },
   });
 }
