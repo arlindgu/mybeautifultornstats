@@ -14,6 +14,15 @@ export async function getDb() {
       if (!db.objectStoreNames.contains("battlestats")) {
         db.createObjectStore("battlestats");
       }
+      if (!db.objectStoreNames.contains("logs")) {
+        db.createObjectStore("logs");
+      }
+      if (!db.objectStoreNames.contains("Money Outgoing")) {
+        db.createObjectStore("Money Outgoing");
+      }
+      if (!db.objectStoreNames.contains("Money Incoming")) {
+        db.createObjectStore("Money Incoming");
+      }
     },
   });
 }
@@ -22,6 +31,12 @@ export async function saveData(storeName: string, data: any, id: string) {
   const db = await getDb();
   if (!db) return;
   await db.put(storeName, data, id);
+}
+
+export async function countDB(storeName: string) {
+  const db = await openDB('mbts-db', 1);
+    const count = await db.count(storeName); 
+  return count;
 }
 
 

@@ -46,6 +46,8 @@ export default function WelcomePage() {
     }
 
     return (
+        <div>
+            <Header />
         <div className="flex justify-center items-center w-full h-screen">
             <div className="grid grid-cols-4 grid-rows-2 gap-4">
 
@@ -87,6 +89,7 @@ export default function WelcomePage() {
                     </Card>
                 ))}
             </div>
+        </div>
         </div>
     );
 }

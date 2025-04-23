@@ -20,6 +20,10 @@ export default function Home() {
     const success = await checkApiKey();
     if (success) {
       router.push("/welcome");
+    } else {
+      document.getElementById("login-button")!.removeAttribute("disabled");
+      document.getElementById("loader")!.classList.add("hidden");
+      document.getElementById("btn-text")!.classList.remove("hidden");
     }
   }
 

@@ -1,6 +1,7 @@
 "use client";
 import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
+import { resetDB } from "@/hooks/useDeleteMe";
 
 export default function Header() {
 
@@ -13,6 +14,9 @@ export default function Header() {
             </div>
             <div className="flex flex-row gap-4 w-full justify-center items-center">
             <Button variant="outline" onClick={() => router.push("/battlestats")}>Battlestats</Button>
+            <Button variant="outline" onClick={() => router.push("/dashboard")}>Dashboard</Button>
+            <Button variant="outline" onClick={() => router.push("/cashflow")}>Cashflow</Button>
+            <Button variant="outline" onClick={() => router.push("/test")}>Test</Button>
             </div>
         </header>
 
