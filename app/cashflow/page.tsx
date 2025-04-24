@@ -15,9 +15,9 @@ export default function CashflowPage() {
     }, []);
     
     return (
-        <div>
+        <div className="flex flex-col min-h-screen">
             <Header />
-            <div className="flex justify-center items-center w-full h-screen">
+            <div className="flex justify-center items-center flex-1">
                 <div className="grid grid-cols-4 grid-rows-2 gap-4">
                     <div className="col-span-4 row-span-1 row-start-2 h-fit items-center">
                         <div className="text-center w-full">

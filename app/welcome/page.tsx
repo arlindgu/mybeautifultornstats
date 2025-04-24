@@ -2,14 +2,11 @@
 
 import { useProfile } from "@/hooks/useProfile";
 import { Button } from "@/components/ui/button";
-import { Progress } from "@/components/ui/progress";
-import { useLogs } from "@/hooks/useLogs";
 import { useRouter } from "next/navigation";
-import useDeleteMe from "@/hooks/useDeleteMe";
 
 export default function WelcomePage() {
   const handleDelete = () => {
-    useDeleteMe();
+    localStorage.removeItem("api_key");
     router.push("/");
   }
 

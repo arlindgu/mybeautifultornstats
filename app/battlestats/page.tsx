@@ -28,6 +28,7 @@ export default function WelcomePage() {
         { title: "Dexterity Info", value: statsInfo.dexterityInfo }
     ];
 
+    
     const battleStatsModifier = [
         { title: "Strength Modifier", value: statsModifier?.strengthModifier ?? 0 },
         { title: "Defense Modifier", value: statsModifier?.defenseModifier ?? 0 },
@@ -46,9 +47,9 @@ export default function WelcomePage() {
     }
 
     return (
-        <div>
+        <div className="flex flex-col min-h-screen">
             <Header />
-        <div className="flex justify-center items-center w-full h-screen">
+        <main className="flex justify-center items-center flex-1">
             <div className="grid grid-cols-4 grid-rows-2 gap-4">
 
                 <Card className="col-span-4 row-span-1 row-start-2 h-fit items-center">
@@ -89,7 +90,7 @@ export default function WelcomePage() {
                     </Card>
                 ))}
             </div>
-        </div>
+        </main>
         </div>
     );
 }
