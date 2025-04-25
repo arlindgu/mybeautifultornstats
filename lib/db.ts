@@ -7,7 +7,7 @@ export async function createDb(name: string, version = 1) {
 }
 
 
-export async function addObjectStores(name: string, storeNames: string []) {
+export async function addObjectStore(name: string, storeName: string) {
   if (typeof window === "undefined") return null;
 
   const db = await openDB(name);
@@ -16,11 +16,9 @@ export async function addObjectStores(name: string, storeNames: string []) {
 
   return openDB(name, newVersion, {
     upgrade(db) {
-      for (const storeName of storeNames) {
         if (!db.objectStoreNames.contains(storeName)) {
           db.createObjectStore(storeName);
         }
-      }
     },
   });
 }

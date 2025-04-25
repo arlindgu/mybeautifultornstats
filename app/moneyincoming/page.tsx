@@ -5,11 +5,8 @@ import { useMoneyIncoming } from "./useMoneyIncoming";
 import { useEffect } from "react";
 
 export default function CashflowPage() {
-  const { progress, fetchMoneyIncoming } = useMoneyIncoming();
 
-  useEffect(() => {
-    fetchMoneyIncoming();
-  }, []);
+  
 
   return (
     <div className="flex flex-col min-h-screen">

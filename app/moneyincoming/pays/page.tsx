@@ -1,18 +1,47 @@
 "use client";
 
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { fetchJobLogs } from "./fetchJobLogs";
-import useJobLogs from "./useJobLogs";
 import { fetchLogsFromCategory } from "@/hooks/fetchLogsFromCategory";
+import { saveData, addObjectStore } from "@/lib/db";
+import { useEffect } from "react";
+import { openDB } from "idb";
 
 export default function PaysPage() {
 
-    const apiKey = localStorage.getItem("api_key");
-    if (!apiKey) {
-        console.log("No API key found in local storage.");
-        return;
-    }
-    fetchLogsFromCategory(apiKey, 147);
+    addObjectStore("jobLogs", "jobLogs");
+
+    (async () => {
+        const apiKey = localStorage.getItem("api_key");
+        if (!apiKey) {
+            console.log("No API key found in local storage.");
+            return;
+        } else {
+            const test = await fetchLogsFromCategory(apiKey, 147);
+            for (const [key, value] of test) {
+                saveData("jobLogs", "jobLogs", value, key);
+            }
+        }
+
+        const db = await openDB("jobLogs");
+        const entries = await db.getAll("jobLogs");
+        const filteredEntries = entries.filter((entry) => entry.log === 6220);
+        console.log("Filtered Entries:", filteredEntries);
+
+        let total = 0;
+        for (const entry of filteredEntries) {
+            total += entry.data.pay
+        }
+
+        const uniqueJobs: string[] = Array.from(
+            new Set(filteredEntries.map((entry) => entry.data.job))
+          );
+        console.log("Unique Jobs:", uniqueJobs)
+
+        console.log("Total:", total);
+        console.log("Entries in jobLogs:", entries);
+
+
+    })();
 
     return (
         <main>
