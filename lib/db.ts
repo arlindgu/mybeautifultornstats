@@ -1,34 +1,43 @@
 // lib/db.ts
 import { openDB } from "idb";
 
-export async function getDb() {
-  if (typeof window === "undefined") return null; // nur im Browser
-  return openDB("mbts-db", 1, {
+export async function createDb(name: string, version = 1) {
+  if (typeof window === "undefined") return null;
+  return openDB(name, version);
+}
+
+
+export async function addObjectStores(name: string, storeNames: string []) {
+  if (typeof window === "undefined") return null;
+
+  const db = await openDB(name);
+  const newVersion = db.version + 1;
+  db.close();
+
+  return openDB(name, newVersion, {
     upgrade(db) {
-      if (!db.objectStoreNames.contains("basic")) {
-        db.createObjectStore("basic");
-      }
-      if (!db.objectStoreNames.contains("profile")) {
-        db.createObjectStore("profile");
-      }
-      if (!db.objectStoreNames.contains("battlestats")) {
-        db.createObjectStore("battlestats");
-      }
-      if (!db.objectStoreNames.contains("logs")) {
-        db.createObjectStore("logs");
-      }
-      if (!db.objectStoreNames.contains("Money Outgoing")) {
-        db.createObjectStore("Money Outgoing");
-      }
-      if (!db.objectStoreNames.contains("Money Incoming")) {
-        db.createObjectStore("Money Incoming");
+      for (const storeName of storeNames) {
+        if (!db.objectStoreNames.contains(storeName)) {
+          db.createObjectStore(storeName);
+        }
       }
     },
   });
 }
 
-export async function saveData(storeName: string, data: any, id: string) {
-  const db = await getDb();
+export async function getDb(name: string) {
+  if (typeof window === "undefined") return null;
+
+  const dbs = await indexedDB.databases?.();
+  const exists = dbs?.some(db => db.name === name);
+
+  if (!exists) throw new Error(`DB '${name}' does not exist`);
+
+  return openDB(name);
+}
+
+export async function saveData(dbname: string, storeName: string, data: any, id: string) {
+  const db = await getDb(dbname);
   if (!db) return;
   await db.put(storeName, data, id);
 }
@@ -40,8 +49,8 @@ export async function countDB(storeName: string) {
 }
 
 
-export async function storeExistsAndNotEmpty(storeName: string): Promise<boolean> {
-    const db = await getDb();
+export async function storeExistsAndNotEmpty(dbname: string, storeName: string): Promise<boolean> {
+    const db = await getDb(dbname);
     if (!db) return false;
     if (!db.objectStoreNames.contains(storeName)) return false;
   

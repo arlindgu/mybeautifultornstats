@@ -5,8 +5,45 @@ export const ApiEndpoints = {
   firstLog: "https://api.torn.com/v2/user?selections=log&striptags=false",
 }
 
+export async function checkNewLogs(apikey: string, from: number, category: number) {
+  const res = await fetch(`https://api.torn.com/v2/user?selections=log&cat=${category}&from=${from}&striptags=false`, {
+      method: "GET",
+      headers: {
+          Authorization: `ApiKey ${apikey}`,
+      }
+  });
+  let data = await res.json()
+  if (data.error) {
+    const retry = await handleTornApiError(data.error.code);
+    if (retry) {
+      return data;
+    }
+  }
+  return data;
+}
+
+// This function fetches the logs from the Torn API DE ISCH GUET! NÖD ALANGE)
+
+export async function getLogs(apikey: string, category: number, to: number) {
+  const res = await fetch(`https://api.torn.com/v2/user?selections=log&cat=${category}&to=${to}&striptags=false`, {
+      method: "GET",
+      headers: {
+          Authorization: `ApiKey ${apikey}`,
+      }
+  });
+  let data = await res.json()
+  if (data.error) {
+    const retry = await handleTornApiError(data.error.code);
+    if (retry) {
+      return data;
+    }
+  }
+  return data;
+}
+
+
 export async function getMoneyOutgoing(apikey: string, to: number) {
-  const res = await fetch(`https://api.torn.com/user/?key=${apikey}}&cat=17&to=${to}&selections=log`, {
+  const res = await fetch(`https://api.torn.com/user/?key=${apikey}}&cat=14&to=${to}&selections=log`, {
     method: "GET",
     headers: {
       Authorization: `ApiKey ${apikey}`,
@@ -24,7 +61,7 @@ export async function getMoneyOutgoing(apikey: string, to: number) {
 }
 
 export async function getMoneyIncoming(apikey: string, to: number) {
-  const res = await fetch(`https://api.torn.com/user/?key=${apikey}}&cat=14&to=${to}&selections=log`, {
+  const res = await fetch(`https://api.torn.com/user/?key=${apikey}}&cat=17&to=${to}&selections=log`, {
     method: "GET",
     headers: {
       Authorization: `ApiKey ${apikey}`,
@@ -98,22 +135,6 @@ export async function getBattleStats (url: string = ApiEndpoints.battlestats, ap
 
 export async function getFirstLogs(url: string = ApiEndpoints.firstLog, apikey: string) {
   const res = await fetch(url, {
-      method: "GET",
-      headers: {
-          Authorization: `ApiKey ${apikey}`,
-      }
-  });
-  let data = await res.json()
-  if (data.error) {
-    const retry = await handleTornApiError(data.error.code);
-    if (retry) {
-      return data;
-    }
-  }
-  return data;
-}
-export async function getLogs(to: number, apikey: string) {
-  const res = await fetch(`https://api.torn.com/v2/user?selections=log&to=${to}&striptags=false`, {
       method: "GET",
       headers: {
           Authorization: `ApiKey ${apikey}`,

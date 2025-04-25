@@ -6,7 +6,7 @@ export function useProfile() {
     const [username, setUsername] = useState<string | null>(null);
   
     useEffect(() => {
-      async function init() {
+      (async () => {
         const key = localStorage.getItem("api_key");
         if (!key) return;
 
@@ -25,7 +25,7 @@ export function useProfile() {
         }
       }
 
-      init();
+    )();
     }, []);
   
     return {username};

@@ -5,6 +5,7 @@ import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { checkApiKey, useLogin } from "@/hooks/useLogin"
 import { useRouter } from "next/navigation";
 import { Loader2 } from "lucide-react"
+import { toast } from "sonner"
 
 export default function Home() {
 
@@ -20,6 +21,7 @@ export default function Home() {
     const success = await checkApiKey();
     if (success) {
       router.push("/welcome");
+      toast("Event has been created.")
     } else {
       document.getElementById("login-button")!.removeAttribute("disabled");
       document.getElementById("loader")!.classList.add("hidden");

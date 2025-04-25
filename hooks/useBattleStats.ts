@@ -42,7 +42,7 @@ export function useBattleStats() {
 
 
     useEffect(() => {
-        async function init() {
+        (async () => {
           const key = localStorage.getItem("api_key");
           if (!key) return;
             
@@ -98,7 +98,7 @@ export function useBattleStats() {
           }
         }
   
-        init();
+      )();
       }, []);
   
     return {stats, statsInfo, statsModifier};
