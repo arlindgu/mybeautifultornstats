@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { getProfile, ApiEndpoints } from "@/lib/apicalls";
+import { getFromUser } from "@/lib/apicalls";
 import { saveData, getDb } from "@/lib/db";
 
 export function useProfile() {
@@ -10,7 +10,7 @@ export function useProfile() {
         const key = localStorage.getItem("api_key");
         if (!key) return;
 
-        const db = await getDb();
+        const db = await getDb("MBTS");
         if (!db || !db.objectStoreNames.contains("profile")) return;
         const result = await db.get("profile", "profile");
         if (result) {
@@ -18,10 +18,10 @@ export function useProfile() {
           console.log("LOADED FROM IDB");
           return;
         } else {
-          const profile = await getProfile(ApiEndpoints.profile, key);
+          const profile = await getFromUser(key, "profile");
           setUsername(profile["name"]);
           console.log("API REQUEST MADE");
-          saveData("profile", profile, "profile");
+          saveData("MBTS", "profile", profile, "profile");
         }
       }
 

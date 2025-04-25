@@ -6,7 +6,7 @@ import {
     CardHeader,
     CardTitle,
 } from "@/components/ui/card"
-import { useBattleStats } from "./useBattleStats";
+import { useBattleStats } from "./useJob";
 import { toast } from "sonner";
 
 export default function WelcomePage() {

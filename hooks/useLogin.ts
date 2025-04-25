@@ -1,4 +1,4 @@
-import { ApiEndpoints, getProfile } from '@/lib/apicalls';
+import { getFromUser } from '@/lib/apicalls';
 import { useState, useEffect } from 'react';
 
 export function useLogin() {
@@ -17,7 +17,7 @@ export function useLogin() {
 export async function checkApiKey() {
 
     const apiKey = (document.getElementById("api_key") as HTMLInputElement).value;
-    let response = await getProfile(ApiEndpoints.basic, apiKey);
+    let response = await getFromUser(apiKey, "profile");
 
     if (response["error"]) {
         console.log("Error:" , response);

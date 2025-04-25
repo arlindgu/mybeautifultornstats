@@ -28,7 +28,7 @@ export function AppSidebar() {
     useEffect(() => {
         async function loadProfile() {
             console.log("Loading profile from IndexedDB")
-            const db = await openDB('mbts-db', 1)
+            const db = await openDB('MBTS')
             const profile = await db.get('profile', 'profile')
             console.log(profile)
             if (profile) {

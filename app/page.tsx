@@ -6,10 +6,14 @@ import { checkApiKey, useLogin } from "@/hooks/useLogin"
 import { useRouter } from "next/navigation";
 import { Loader2 } from "lucide-react"
 import { toast } from "sonner"
+import { addObjectStores, createDb } from "@/lib/db";
 
 export default function Home() {
 
-
+  (async () => {
+    createDb("MBTS", 0)
+    toast("DB created")
+  })();
 
   const router = useRouter()
   async function handleLogin() {

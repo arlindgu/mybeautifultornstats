@@ -7,7 +7,7 @@ export async function createDb(name: string, version = 1) {
 }
 
 
-export async function addObjectStore(name: string, storeName: string) {
+export async function addObjectStores(name: string, storeNames: string []) {
   if (typeof window === "undefined") return null;
 
   const db = await openDB(name);
@@ -16,9 +16,11 @@ export async function addObjectStore(name: string, storeName: string) {
 
   return openDB(name, newVersion, {
     upgrade(db) {
+      for (const storeName of storeNames) {
         if (!db.objectStoreNames.contains(storeName)) {
           db.createObjectStore(storeName);
         }
+      }
     },
   });
 }
@@ -39,19 +41,3 @@ export async function saveData(dbname: string, storeName: string, data: any, id:
   if (!db) return;
   await db.put(storeName, data, id);
 }
-
-export async function countDB(storeName: string) {
-  const db = await openDB('mbts-db', 1);
-    const count = await db.count(storeName); 
-  return count;
-}
-
-
-export async function storeExistsAndNotEmpty(dbname: string, storeName: string): Promise<boolean> {
-    const db = await getDb(dbname);
-    if (!db) return false;
-    if (!db.objectStoreNames.contains(storeName)) return false;
-  
-    const allItems = await db.getAll(storeName);
-    return allItems.length > 0;
-  }

@@ -1,14 +1,13 @@
 "use client";
 import { openDB }   from "idb";
-import { createDb, saveData, addObjectStore } from "@/lib/db";
+import { createDb, saveData, addObjectStores } from "@/lib/db";
 import { useEffect, useState } from "react";
-import { getLogs, getProfile, ApiEndpoints } from "@/lib/apicalls";
+import { getLogs, getFromUser } from "@/lib/apicalls";
 
 
 export async function fetchLogsFromCategory (apiKey: string, category: number) {
 
-
-    const result = await getProfile(apiKey, ApiEndpoints.profile)
+    const result = await getFromUser(apiKey, "profile")
     const oldestTimestamp = result.log[0].signup;
     console.log("Oldest Timestamp:", oldestTimestamp);
     const currentTimestamp = Math.floor(Date.now() / 1000);
@@ -26,18 +25,6 @@ export async function fetchLogsFromCategory (apiKey: string, category: number) {
         console.log("Fetched logs:", entriesLogs.length);
         
         await new Promise((resolve) => setTimeout(resolve, 1200));
-
-        /*console.log("Progress:", currentTimestamp - entriesLogs[0][1].timestamp); )
-
-        /*
-        setProgress(
-            ((firstLogEntry.timestamp - entries[entries.length - 1].timestamp) /
-              (firstLogEntry.timestamp - oldestTimestamp)) *
-              100
-          );
-          */
-        
-
     }
 
     console.log("finished", entriesLogs.length);

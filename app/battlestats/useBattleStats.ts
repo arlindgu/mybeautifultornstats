@@ -1,9 +1,8 @@
 import { useEffect, useState } from "react";
-import { getBattleStats, ApiEndpoints } from "@/lib/apicalls";
-import { saveData, getDb } from "@/lib/db";
+import { getFromUser } from "@/lib/apicalls";
+import { saveData, getDb, createDb } from "@/lib/db";
 
 export function useBattleStats() {
-
     const [stats, setStats] = useState<{
         strength: number  | null,
         defense: number | null,
@@ -45,12 +44,12 @@ export function useBattleStats() {
         (async () => {
           const key = localStorage.getItem("api_key");
           if (!key) return;
-            
-          const db = await getDb();
+
+          const db = await getDb("MBTS");
           if (!db || !db.objectStoreNames.contains("battlestats")) return;
 
           const iDBBattleStats = await db.get("battlestats", "battlestats");
-          const APIBattleStats = await getBattleStats(ApiEndpoints.battlestats, key);
+          const APIBattleStats = await getFromUser(key, "battlestats");
           console.log("Checking if Update on battlestats");
           const isSame = JSON.stringify(APIBattleStats) === JSON.stringify(iDBBattleStats);
 
@@ -94,7 +93,7 @@ export function useBattleStats() {
               dexterityInfo: APIBattleStats["dexterity_info"]
             });
             console.log("API & iDB are NOT same, updating iDB values, using API values");
-            saveData("battlestats", APIBattleStats, "battlestats");
+            saveData("MBTS","battlestats", APIBattleStats, "battlestats");
           }
         }
   
