@@ -5,6 +5,7 @@ import { ThemeProvider } from "@/components/theme-provider"
 import { SidebarProvider, SidebarTrigger, SidebarInset } from "@/components/ui/sidebar";
 import { AppSidebar  } from "@/components/app-sidebar";
 import { Toaster } from "@/components/ui/sonner"
+import { Separator } from "@/components/ui/separator";
 
 
 
@@ -31,11 +32,12 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" suppressHydrationWarning>
-      <body className={`${geistSans.variable} ${geistMono.variable} antialiased flex min-h-screen flex-col`}>
+      <body className={`${geistSans.variable} ${geistMono.variable} antialiased flex flex-col h-screen`}>
         <SidebarProvider>
           <AppSidebar />
+          <SidebarTrigger className="m-4" />
           <main className="flex-1">
-            <SidebarTrigger className="m-4" />
+
             <ThemeProvider attribute="class" defaultTheme="dark" enableSystem disableTransitionOnChange>
               {children}
             </ThemeProvider>

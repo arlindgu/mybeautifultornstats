@@ -60,7 +60,6 @@ export function AppSidebar() {
                                 <Link href="/dashboard">
                                     <PersonStandingIcon />
                                     Dashboard
-                                    <Badge className="bg-green-700" variant="default"><Check color="white" /></Badge>
                                 </Link>
 
                             </SidebarMenuButton>
@@ -72,7 +71,6 @@ export function AppSidebar() {
                                 <Link href="/battlestats">
                                 <Dumbbell />
                                 Battlestats
-                                <Badge className="bg-red-700" variant="default"><X color="white"/></Badge>
                                 </Link>
                             </SidebarMenuButton>
                         </SidebarMenuItem>

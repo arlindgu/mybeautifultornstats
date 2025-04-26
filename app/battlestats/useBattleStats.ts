@@ -3,6 +3,9 @@ import { getFromUser } from "@/lib/apicalls";
 import { saveData, getDb, createDb } from "@/lib/db";
 
 export function useBattleStats() {
+
+    const [toastMessage, setToastMessage] = useState<string | null>("Checking for updates...");
+
     const [stats, setStats] = useState<{
         strength: number  | null,
         defense: number | null,
@@ -50,7 +53,7 @@ export function useBattleStats() {
 
           const iDBBattleStats = await db.get("battlestats", "battlestats");
           const APIBattleStats = await getFromUser(key, "battlestats");
-          console.log("Checking if Update on battlestats");
+
           const isSame = JSON.stringify(APIBattleStats) === JSON.stringify(iDBBattleStats);
 
           if (isSame) {
@@ -72,7 +75,7 @@ export function useBattleStats() {
               speedInfo: iDBBattleStats["speed_info"],
               dexterityInfo: iDBBattleStats["dexterity_info"]
             });
-            console.log("API & iDB are the same, using iDB values");
+            setToastMessage("API & iDB are the same, using iDB values");
           } else {
             setStatsModifiers({
               strengthModifier: APIBattleStats["strength_modifier"],
@@ -92,7 +95,7 @@ export function useBattleStats() {
               speedInfo: APIBattleStats["speed_info"],
               dexterityInfo: APIBattleStats["dexterity_info"]
             });
-            console.log("API & iDB are NOT same, updating iDB values, using API values");
+            setToastMessage("API & iDB are NOT same, updating iDB values, using API values");
             saveData("MBTS","battlestats", APIBattleStats, "battlestats");
           }
         }
@@ -100,5 +103,5 @@ export function useBattleStats() {
       )();
       }, []);
   
-    return {stats, statsInfo, statsModifier};
+    return {stats, statsInfo, statsModifier, toastMessage};
 }

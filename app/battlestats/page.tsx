@@ -1,4 +1,4 @@
-"use client";
+"use client"
 import {
     Card,
     CardContent,
@@ -8,9 +8,12 @@ import {
 } from "@/components/ui/card"
 import { useBattleStats } from "./useBattleStats";
 import { toast } from "sonner";
+ import { useEffect } from "react";
+
 
 export default function WelcomePage() {
-    const { stats, statsInfo, statsModifier } = useBattleStats();
+    
+    const { stats, statsInfo, statsModifier, toastMessage } = useBattleStats();
     const battleStats = [
         { title: "Strength", value: stats?.strength ?? 0 },
         { title: "Defense", value: stats?.defense ?? 0 },
@@ -38,6 +41,13 @@ export default function WelcomePage() {
     for (let i = 0; i < battleStatsModifier.length; i++) {
         sumBattleStatsWithModifier += Math.round(((battleStats[i].value) * (battleStatsModifier[i].value / 100 + 1)));
     }
+
+
+    useEffect(() => {
+        if (toastMessage) {
+            toast(toastMessage);
+        }
+    }, [toastMessage]);
 
     return (
             <div className="m-16 grid grid-cols-4 grid-rows-2 gap-4">
