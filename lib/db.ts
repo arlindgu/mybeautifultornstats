@@ -2,13 +2,12 @@
 import { openDB } from "idb";
 
 export async function createDb(name: string, version = 1) {
-  if (typeof window === "undefined") return null;
+  if (typeof window === "undefined") throw new Error("createDb can only be called in the browser.");
   return openDB(name, version);
 }
 
-
 export async function addObjectStores(name: string, storeNames: string []) {
-  if (typeof window === "undefined") return null;
+  if (typeof window === "undefined") throw new Error("addObjectStores can only be called in the browser.");
 
   const db = await openDB(name);
   const newVersion = db.version + 1;
@@ -26,7 +25,7 @@ export async function addObjectStores(name: string, storeNames: string []) {
 }
 
 export async function getDb(name: string) {
-  if (typeof window === "undefined") return null;
+  if (typeof window === "undefined") throw new Error("getDb can only be called in the browser.");
 
   const dbs = await indexedDB.databases?.();
   const exists = dbs?.some(db => db.name === name);
@@ -38,6 +37,5 @@ export async function getDb(name: string) {
 
 export async function saveData(dbname: string, storeName: string, data: any, id: string) {
   const db = await getDb(dbname);
-  if (!db) return;
   await db.put(storeName, data, id);
 }

@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { getFromUser } from "@/lib/apicalls";
-import { saveData, getDb, createDb } from "@/lib/db";
+import { saveData, getDb, createDb, addObjectStores } from "@/lib/db";
 
 export function useBattleStats() {
 
@@ -49,11 +49,8 @@ export function useBattleStats() {
           if (!key) return;
 
           const db = await getDb("MBTS");
-          if (!db || !db.objectStoreNames.contains("battlestats")) return;
-
           const iDBBattleStats = await db.get("battlestats", "battlestats");
           const APIBattleStats = await getFromUser(key, "battlestats");
-
           const isSame = JSON.stringify(APIBattleStats) === JSON.stringify(iDBBattleStats);
 
           if (isSame) {

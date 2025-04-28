@@ -20,6 +20,7 @@ import { useEffect, useState } from "react"
 import { useRouter } from "next/navigation"
 import Link from "next/link"
 import { Badge } from "./ui/badge"
+import { addObjectStores } from "@/lib/db"
 
 export function AppSidebar() {
 

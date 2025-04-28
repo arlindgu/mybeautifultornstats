@@ -6,14 +6,16 @@ import { checkApiKey, useLogin } from "@/hooks/useLogin"
 import { useRouter } from "next/navigation";
 import { Loader2 } from "lucide-react"
 import { toast } from "sonner"
-import { addObjectStores, createDb } from "@/lib/db";
+import { initDatabase } from "@/lib/initDatabase";
+import { use, useEffect } from "react";
+import { init } from "next/dist/compiled/webpack/webpack";
+import { useState } from "react";
 
 export default function Home() {
 
-  (async () => {
-    createDb("MBTS", 0)
-    toast("DB created")
-  })();
+  useEffect(() => {
+    initDatabase();
+  }, []);
 
   const router = useRouter()
   async function handleLogin() {
@@ -37,7 +39,6 @@ export default function Home() {
 
   return (
     <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
-
       <main className="flex flex-col gap-[32px] row-start-2 items-center sm:items-start">
         <div className="flex flex-col items-center justify-center w-full" >
           <h1 className="text-6xl font-bold">MBTS</h1>
