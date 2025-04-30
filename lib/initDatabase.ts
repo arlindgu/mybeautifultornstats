@@ -1,11 +1,10 @@
 import { createDb, addObjectStores, getDb } from "@/lib/db";
-import { useState } from "react";
-import { toast } from "sonner";
 
 const dbName = "MBTS";
 const storeNames = [
   "profile",
   "battlestats",
+  "employmentCompany"
 ]
 
 export async function initDatabase() {

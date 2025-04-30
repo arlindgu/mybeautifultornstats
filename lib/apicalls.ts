@@ -1,3 +1,21 @@
+export async function getCookie(key: string) {
+  const res = await fetch(`/api/auth/get-cookie?key=${key}`);
+  const data = await res.json();
+  return data;
+}
+
+export async function setCookie(key: string, value: string) {
+  const res = await fetch("/api/auth/set-cookie", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({ key, value }),
+  });
+  const data = await res.json();
+  return data;
+}
+
 // Basic function to fetch selection data from User
 export async function getFromUser(apikey: string, selection: string) {
   const res = await fetch(`https://api.torn.com/v2/user?selections=${selection}&striptags=false`, {

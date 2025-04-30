@@ -19,8 +19,11 @@ import { ChevronDown, HandCoins, PersonStandingIcon, Dumbbell, Cog, Check, X, Bu
 import { useEffect, useState } from "react"
 import { useRouter } from "next/navigation"
 import Link from "next/link"
+import { initDatabase } from "@/lib/initDatabase"
 
 export function AppSidebar() {
+
+    initDatabase();
 
     const [profileName, setProfileName] = useState("")
 
@@ -93,8 +96,8 @@ export function AppSidebar() {
                                     <SidebarMenuSub>
                                         <SidebarMenuSubItem>
                                             <SidebarMenuSubButton asChild>
-                                                <Link href="/job" className="flex items-center gap-2">
-                                                Job
+                                                <Link href="/employment" className="flex items-center gap-2">
+                                                Employment
                                                 </Link>
                                             </SidebarMenuSubButton>
                                         </SidebarMenuSubItem>

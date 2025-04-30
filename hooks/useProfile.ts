@@ -1,9 +1,11 @@
 import { useEffect, useState } from "react";
 import { getFromUser } from "@/lib/apicalls";
 import { saveData, getDb } from "@/lib/db";
+import { useLocalStorage } from "./useLocalStorage";
 
 export function useProfile() {
     const [username, setUsername] = useState<string | null>(null);
+    const [apiKey] = useLocalStorage("apiKey", "");
   
     useEffect(() => {
       (async () => {
@@ -26,7 +28,7 @@ export function useProfile() {
       }
 
     )();
-    }, []);
+    }, [apiKey]);
   
     return {username};
 }

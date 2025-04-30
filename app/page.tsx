@@ -2,17 +2,11 @@
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
-import { checkApiKey, useLogin } from "@/hooks/useLogin"
+import { checkApiKey, useLogin } from "@/app/useLogin"
 import { useRouter } from "next/navigation";
 import { Loader2 } from "lucide-react"
-import { toast } from "sonner"
-import { initDatabase } from "@/lib/initDatabase";
-import { use, useEffect } from "react";
-import { init } from "next/dist/compiled/webpack/webpack";
-import { useState } from "react";
 
 export default function Home() {
-
   const router = useRouter()
   async function handleLogin() {
 
@@ -23,7 +17,6 @@ export default function Home() {
     const success = await checkApiKey();
     if (success) {
       router.push("/welcome");
-      toast("Event has been created.")
     } else {
       document.getElementById("login-button")!.removeAttribute("disabled");
       document.getElementById("loader")!.classList.add("hidden");
@@ -44,7 +37,7 @@ export default function Home() {
           <Input
             id="apiKey"
             placeholder="API Key"
-            value={apiKey || ""}
+            value={apiKey || ""} 
             onChange={(e) => setApiKey(e.target.value)}
           ></Input>
 

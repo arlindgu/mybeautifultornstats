@@ -5,6 +5,8 @@ import { ThemeProvider } from "@/components/theme-provider"
 import { SidebarProvider, SidebarTrigger, SidebarInset } from "@/components/ui/sidebar";
 import { AppSidebar  } from "@/components/app-sidebar";
 import { Toaster } from "@/components/ui/sonner"
+import { initDatabase } from "@/lib/initDatabase";
+import { init } from "next/dist/compiled/webpack/webpack";
 
 
 

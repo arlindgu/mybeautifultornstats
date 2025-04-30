@@ -1,10 +1,13 @@
+"use client";
 import { useEffect, useState } from "react";
 import { getFromUser } from "@/lib/apicalls";
 import { saveData, getDb, createDb, addObjectStores } from "@/lib/db";
+import { useLocalStorage } from "@/hooks/useLocalStorage";
 
 export function useBattleStats() {
-
     const [toastMessage, setToastMessage] = useState<string | null>("Checking for updates...");
+    const [apiKey] = useLocalStorage<string | null>("apiKey", null);
+    
 
     const [stats, setStats] = useState<{
         strength: number  | null,
@@ -44,13 +47,24 @@ export function useBattleStats() {
 
 
     useEffect(() => {
+      if (apiKey === null) {
+        console.log("apiKey noch nicht geladen");
+        return;
+      }
+    
+      // Gültiger String, aber leer
+      if (apiKey.trim() === "") {
+        console.log("apiKey ist leer");
+        return;
+      }
+
         (async () => {
-          const key = localStorage.getItem("apiKey");
-          if (!key) return;
+
+          console.log(apiKey)
 
           const db = await getDb("MBTS");
           const iDBBattleStats = await db.get("battlestats", "battlestats");
-          const APIBattleStats = await getFromUser(key, "battlestats");
+          const APIBattleStats = await getFromUser(apiKey, "battlestats");
           const isSame = JSON.stringify(APIBattleStats) === JSON.stringify(iDBBattleStats);
 
           if (isSame) {
@@ -98,7 +112,7 @@ export function useBattleStats() {
         }
   
       )();
-      }, []);
+      }, [apiKey]);
   
     return {stats, statsInfo, statsModifier, toastMessage};
 }

@@ -1,4 +1,5 @@
 const config = {
+  mode: "jit",
   plugins: ["@tailwindcss/postcss"],
 };
 
