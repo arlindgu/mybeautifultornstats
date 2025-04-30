@@ -3,18 +3,19 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { Loader2 } from "lucide-react"
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useLogin } from "./useLogin";
 
 export default function Home() {
 
   const [inputApiKey, setInputApiKey] = useState<string>("");
-  const { login } = useLogin();
+  const { login, getApiKey, checkApiKey } = useLogin();
 
-
-
-
-
+  useEffect(() => {
+    (async () => {
+     setInputApiKey(await getApiKey("ApiKey"));
+    })();
+  }, []);
 
   return (
     <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
@@ -27,7 +28,7 @@ export default function Home() {
           <Input
             id="apiKey"
             placeholder="API Key"
-            value={inputApiKey} 
+            value={inputApiKey || ""} 
             onChange={(e) => setInputApiKey(e.target.value)}
           ></Input>
 

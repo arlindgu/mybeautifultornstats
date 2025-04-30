@@ -23,9 +23,59 @@ import { initDatabase } from "@/lib/initDatabase"
 
 export function AppSidebar() {
 
-    initDatabase();
-
     const [profileName, setProfileName] = useState("")
+
+    const simpleMenu = [
+        {
+            label: "Profil",
+            items: [
+                { label: "Dashboard", path: "/dashboard", icon: <PersonStandingIcon /> },
+                { label: "Battlestats", path: "/battlestats", icon: <Dumbbell /> },
+            ]
+        },
+        {
+            label: "Fighting",
+            items: [
+                { label: "Attack Log", path: "/fighting/attacks", icon: <HandCoins /> },
+                { label: "Rankings", path: "/fighting/rankings", icon: <Building2 /> },
+            ]
+        }
+    ];
+
+    const nestedMenu = [
+        {
+            label: "User Data",
+            categories: [
+                {
+                    label: "Profil",
+                    items: [
+                        { label: "Übersicht", path: "/user/profil" },
+                        { label: "Medals", path: "/user/profil/medals" },
+                    ]
+                },
+                {
+                    label: "Finanzen",
+                    items: [
+                        { label: "Networth", path: "/user/finanzen/networth" },
+                        { label: "Stocks", path: "/user/finanzen/stocks" },
+                    ]
+                }
+            ]
+        },
+        {
+            label: "Kämpfen",
+            categories: [
+                {
+                    label: "Stats",
+                    items: [
+                        { label: "Battlestats", path: "/fight/stats" },
+                        { label: "Energy Log", path: "/fight/energy" },
+                    ]
+                }
+            ]
+        }
+    ];
+
 
     useEffect(() => {
         async function loadProfile() {
@@ -44,91 +94,63 @@ export function AppSidebar() {
     const router = useRouter()
 
     return (
+        
         <Sidebar collapsible="icon">
+            <SidebarContent>
             <SidebarHeader>
                 <SidebarMenuButton className="h-fit" asChild>
                     <Link id="nameandid" href="/settings" className="font-bold">{profileName}</Link>
                 </SidebarMenuButton>
             </SidebarHeader>
-            <SidebarContent>
-                <SidebarGroup>
-                    <SidebarGroupLabel>Profile</SidebarGroupLabel>
-                    <SidebarMenu>
-                        <SidebarMenuItem>
+            {simpleMenu.map((menu, index) => (
+                <SidebarGroup key={index} className="group">
+                    <SidebarGroupLabel>{menu.label}</SidebarGroupLabel>
 
+                    {menu.items.map((item, itemIndex) => (
+                        <SidebarMenuItem key={itemIndex}>
                             <SidebarMenuButton asChild>
-
-
-                                <Link href="/dashboard">
-                                    <PersonStandingIcon />
-                                    Dashboard
-                                </Link>
-
-                            </SidebarMenuButton>
-
-                        </SidebarMenuItem>
-                        <SidebarMenuItem>
-
-                            <SidebarMenuButton asChild>
-                                <Link href="/battlestats">
-                                    <Dumbbell />
-                                    Battlestats
-                                </Link>
+                                <Link href={item.path} className="flex items-center gap-2">
+                                {item.icon}
+                                {item.label}
+                                    </Link>
                             </SidebarMenuButton>
                         </SidebarMenuItem>
-                    </SidebarMenu>
+                    ))}
                 </SidebarGroup>
+            ))}
+            
 
-                <SidebarGroup>
-                    <SidebarGroupLabel>Money</SidebarGroupLabel>
-                    <SidebarMenu>
-                        <Collapsible defaultOpen className="group/collapsible">
-                            <SidebarMenuItem>
-                                <CollapsibleTrigger asChild className="group flex w-full items-center">
+                {nestedMenu.map((menu, index) => (
+  <SidebarGroup key={index} className="group">
+    <SidebarGroupLabel>{menu.label}</SidebarGroupLabel>
 
-                                    <SidebarMenuButton>
-                                            <HandCoins /> Money Incoming
-                                            <ChevronDown className="ml-auto transition-transform duration-200 group-data-[state=open]:rotate-180" />
-                                    </SidebarMenuButton>
+    {menu.categories.map((category, catIndex) => (
+      <Collapsible key={catIndex} defaultOpen className="group/collapsible">
+        <CollapsibleTrigger asChild className="group flex w-full items-center">
+          <SidebarMenuButton>
+            {category.label}
+            <ChevronDown className="ml-auto transition-transform duration-200 group-data-[state=open]:rotate-180" />
+          </SidebarMenuButton>
+        </CollapsibleTrigger>
 
-                                </CollapsibleTrigger>
-                                <CollapsibleContent>
-                                    <SidebarMenuSub>
-                                        <SidebarMenuSubItem>
-                                            <SidebarMenuSubButton asChild>
-                                                <Link href="/employment" className="flex items-center gap-2">
-                                                Employment
-                                                </Link>
-                                            </SidebarMenuSubButton>
-                                        </SidebarMenuSubItem>
-                                    </SidebarMenuSub>
-                                </CollapsibleContent>
-                            </SidebarMenuItem>
-                        </Collapsible>
-                        <Collapsible defaultOpen className="group/collapsible">
-                            <SidebarMenuItem>
-                                <CollapsibleTrigger asChild className="group flex w-full items-center">
-                                    <SidebarMenuButton className="flex w-full items-center justify-between">
-                                        <span className="flex items-center gap-2">
-                                            <HandCoins /> Money Outgoing
-                                        </span>
-                                        <ChevronDown className="h-4 w-4 transition-transform duration-200 group-data-[state=open]:rotate-180" />
-                                    </SidebarMenuButton>
-                                </CollapsibleTrigger>
-                                <CollapsibleContent>
-                                    <SidebarMenuSub>
-                                        <SidebarMenuSubItem>
-                                            <SidebarMenuSubButton>
-                                                Banazar
-                                            </SidebarMenuSubButton>
-                                        </SidebarMenuSubItem>
-                                    </SidebarMenuSub>
-                                </CollapsibleContent>
-                            </SidebarMenuItem>
-                        </Collapsible>
+        <CollapsibleContent>
+          <SidebarMenuSub>
+            {category.items.map((item, itemIndex) => (
+              <SidebarMenuSubItem key={itemIndex}>
+                <SidebarMenuSubButton asChild>
+                  <Link href={item.path} className="flex items-center gap-2">
+                    {item.label}
+                  </Link>
+                </SidebarMenuSubButton>
+              </SidebarMenuSubItem>
+            ))}
+          </SidebarMenuSub>
+        </CollapsibleContent>
+      </Collapsible>
+    ))}
+  </SidebarGroup>
+))}
 
-                    </SidebarMenu>
-                </SidebarGroup>
             </SidebarContent>
         </Sidebar>
     )

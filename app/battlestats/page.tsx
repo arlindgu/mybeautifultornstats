@@ -8,8 +8,7 @@ import {
 } from "@/components/ui/card"
 import { useBattleStats } from "./useBattleStats";
 import { toast } from "sonner";
- import { useEffect } from "react";
- import { Skeleton } from "@/components/ui/skeleton";
+import { useEffect } from "react";
 
 
 export default function WelcomePage() {
