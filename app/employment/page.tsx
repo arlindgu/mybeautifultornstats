@@ -9,7 +9,7 @@ import {
 import { useBattleStats } from "./useJob";
 import { toast } from "sonner";
 
-export default function WelcomePage() {
+export default function EmploymentPage() {
     const { stats, statsInfo, statsModifier } = useBattleStats();
     const battleStats = [
         { title: "Strength", value: stats?.strength ?? 0 },

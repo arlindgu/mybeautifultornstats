@@ -15,12 +15,10 @@ import {
 
 } from "@/components/ui/sidebar"
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "./ui/collapsible"
-import { ChevronDown, HandCoins, PersonStandingIcon, Dumbbell, Check, X } from "lucide-react"
+import { ChevronDown, HandCoins, PersonStandingIcon, Dumbbell, Cog, Check, X, Building2 } from "lucide-react"
 import { useEffect, useState } from "react"
 import { useRouter } from "next/navigation"
 import Link from "next/link"
-import { Badge } from "./ui/badge"
-import { addObjectStores } from "@/lib/db"
 
 export function AppSidebar() {
 
@@ -45,8 +43,8 @@ export function AppSidebar() {
     return (
         <Sidebar collapsible="icon">
             <SidebarHeader>
-                <SidebarMenuButton className="h-fit">
-                    <span id="nameandid" className="font-bold">{profileName}</span>
+                <SidebarMenuButton className="h-fit" asChild>
+                    <Link id="nameandid" href="/settings" className="font-bold">{profileName}</Link>
                 </SidebarMenuButton>
             </SidebarHeader>
             <SidebarContent>
@@ -70,8 +68,8 @@ export function AppSidebar() {
 
                             <SidebarMenuButton asChild>
                                 <Link href="/battlestats">
-                                <Dumbbell />
-                                Battlestats
+                                    <Dumbbell />
+                                    Battlestats
                                 </Link>
                             </SidebarMenuButton>
                         </SidebarMenuItem>
@@ -84,20 +82,20 @@ export function AppSidebar() {
                         <Collapsible defaultOpen className="group/collapsible">
                             <SidebarMenuItem>
                                 <CollapsibleTrigger asChild className="group flex w-full items-center">
-                                
-                                    <SidebarMenuButton asChild>
-                                    <Link href="/moneyincoming" className="flex items-center gap-2">
+
+                                    <SidebarMenuButton>
                                             <HandCoins /> Money Incoming
-                                        <ChevronDown className="ml-auto transition-transform duration-200 group-data-[state=open]:rotate-180" />
-                                        </Link>
+                                            <ChevronDown className="ml-auto transition-transform duration-200 group-data-[state=open]:rotate-180" />
                                     </SidebarMenuButton>
-                                    
+
                                 </CollapsibleTrigger>
                                 <CollapsibleContent>
                                     <SidebarMenuSub>
                                         <SidebarMenuSubItem>
-                                            <SidebarMenuSubButton>
-                                                Companies Pay
+                                            <SidebarMenuSubButton asChild>
+                                                <Link href="/job" className="flex items-center gap-2">
+                                                Job
+                                                </Link>
                                             </SidebarMenuSubButton>
                                         </SidebarMenuSubItem>
                                     </SidebarMenuSub>

@@ -13,10 +13,6 @@ import { useState } from "react";
 
 export default function Home() {
 
-  useEffect(() => {
-    initDatabase();
-  }, []);
-
   const router = useRouter()
   async function handleLogin() {
 
@@ -46,7 +42,7 @@ export default function Home() {
         </div>
         <div className="flex flex-col gap-4 items-center justify-center w-full">
           <Input
-            id="api_key"
+            id="apiKey"
             placeholder="API Key"
             value={apiKey || ""}
             onChange={(e) => setApiKey(e.target.value)}

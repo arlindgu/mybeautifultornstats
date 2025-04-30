@@ -6,7 +6,6 @@ const dbName = "MBTS";
 const storeNames = [
   "profile",
   "battlestats",
-  "penis",
 ]
 
 export async function initDatabase() {

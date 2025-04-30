@@ -3,10 +3,12 @@
 import { useProfile } from "@/hooks/useProfile";
 import { Button } from "@/components/ui/button";
 import { useRouter } from "next/navigation";
+import { Skeleton } from "@/components/ui/skeleton";
+import { Suspense } from "react";
 
 export default function WelcomePage() {
   const handleDelete = () => {
-    localStorage.removeItem("api_key");
+    localStorage.removeItem("apiKey");
     router.push("/");
   }
 
@@ -17,7 +19,11 @@ export default function WelcomePage() {
     <div className="flex flex-col justify-center items-center h-screen gap-4">
       <div className="flex flex-col items-center">
         <h1 className="text-3xl font-bold">Welcome </h1>
-        <h1 className="text-5xl font-extrabold"> {username ?? "..."}</h1>
+  {username ? (
+    <h1 className="text-5xl font-extrabold">{username}</h1>
+  ) : (
+    <Skeleton className="mt-2 h-12 w-100" />
+  )}
       </div>
       <div className="flex flex-col items-center">
         <p className="text-sm">If you want to continue and enjoy this tool, we need to fetch all the logs ever from your account.</p>

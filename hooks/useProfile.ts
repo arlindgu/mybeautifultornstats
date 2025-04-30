@@ -7,7 +7,7 @@ export function useProfile() {
   
     useEffect(() => {
       (async () => {
-        const key = localStorage.getItem("api_key");
+        const key = localStorage.getItem("apiKey");
         if (!key) return;
 
         const db = await getDb("MBTS");

@@ -9,6 +9,7 @@ import {
 import { useBattleStats } from "./useBattleStats";
 import { toast } from "sonner";
  import { useEffect } from "react";
+ import { Skeleton } from "@/components/ui/skeleton";
 
 
 export default function WelcomePage() {
