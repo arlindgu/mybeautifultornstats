@@ -2,29 +2,19 @@
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
-import { checkApiKey, useLogin } from "@/app/useLogin"
-import { useRouter } from "next/navigation";
 import { Loader2 } from "lucide-react"
+import { useState } from "react";
+import { useLogin } from "./useLogin";
 
 export default function Home() {
-  const router = useRouter()
-  async function handleLogin() {
 
-    document.getElementById("login-button")!.setAttribute("disabled", "true");
-    document.getElementById("loader")!.classList.remove("hidden");
-    document.getElementById("btn-text")!.classList.add("hidden");
+  const [inputApiKey, setInputApiKey] = useState<string>("");
+  const { login } = useLogin();
 
-    const success = await checkApiKey();
-    if (success) {
-      router.push("/welcome");
-    } else {
-      document.getElementById("login-button")!.removeAttribute("disabled");
-      document.getElementById("loader")!.classList.add("hidden");
-      document.getElementById("btn-text")!.classList.remove("hidden");
-    }
-  }
 
-  const { apiKey, setApiKey } = useLogin();
+
+
+
 
   return (
     <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
@@ -37,8 +27,8 @@ export default function Home() {
           <Input
             id="apiKey"
             placeholder="API Key"
-            value={apiKey || ""} 
-            onChange={(e) => setApiKey(e.target.value)}
+            value={inputApiKey} 
+            onChange={(e) => setInputApiKey(e.target.value)}
           ></Input>
 
           <Alert className="hidden" id="api_alert" variant="destructive">
@@ -48,7 +38,7 @@ export default function Home() {
             </AlertDescription>
           </Alert>
 
-          <Button disabled={false} id="login-button" onClick={handleLogin} className="w-1/3">
+          <Button disabled={false} id="login-button" onClick={() => login(inputApiKey)} className="w-1/3">
             <Loader2 id="loader" className="animate-spin hidden" />
             <span id="btn-text">Login</span>
           </Button>
