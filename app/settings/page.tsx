@@ -1,5 +1,6 @@
 "use client"
 
+
 import {
     Card,
     CardContent,
@@ -10,12 +11,16 @@ import {
 import { Label } from "@/components/ui/label"
 import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
-import { useSettings, saveToLocalStorage } from "./useSettings"
+import { useSettings } from "./useSettings"
 import { toast } from "sonner"
+import { set } from "react-hook-form"
 
 export default function SettingsPage() {
 
-    let { apiKey, apiRateLimit } = useSettings();
+    const { setApiKey, apiKey } = useSettings();
+    const { setApiRateLimit, apiRateLimit } = useSettings();
+    const { saveSetting } = useSettings();
+
 
     function handleClick(id: string) {
         const input = document.getElementById(id) as HTMLInputElement | null;
@@ -27,8 +32,6 @@ export default function SettingsPage() {
             toast("Please enter a value");
             return;
           }
-    
-        saveToLocalStorage(id, input.value);
         toast(`${id} has been set to ${input.value}`);
     }
 
@@ -42,35 +45,31 @@ export default function SettingsPage() {
         </CardHeader>
         <CardContent>
                 <div className="flex flex-col gap-2">
+
                     <Label>Rate Limit</Label>
                     <div className="flex flex-row gap-2">
-                    <Input min={1} max={100} id="apiRateLimit" placeholder={String(apiRateLimit) || "1"} onChange={(e) => {
-                        const value = Number(e.target.value);
-                        if (value >= 1 && value <= 100) {
-                          e.currentTarget.value = String(value);
-                        } else {
-                          e.preventDefault();
-                        }
-                      }}></Input>
-                    <Button onClick={() => handleClick("apiRateLimit")}>Set Limit</Button>
+                    <Input min={1} max={100} id="apiRateLimit" onChange={(e) => setApiRateLimit(Number(e.target.value))}></Input>
+                    <Button onClick={() => saveSetting("apiRateLimit", `${apiRateLimit}`)}>Change Limit</Button>
                     </div>
+                    <p className="text-xs">Current Rate-Limit: {apiRateLimit}</p>
                 </div>
                 </CardContent>
     </Card>
-
     <Card>
         <CardHeader>
             <CardTitle>API Key</CardTitle>
             <CardDescription>Your current API Key is displayed below:</CardDescription>
             <CardDescription className="text-xs">If you accidentally deleted or modified your API key, you can update it here.</CardDescription>
         </CardHeader>
+        
         <CardContent>
         <div className="flex flex-col gap-2">
                     <Label>API Key</Label>
                     <div className="flex flex-row gap-2">
-                    <Input id="apiKey" placeholder={apiKey || "Unknown"}></Input>
-                    <Button onClick={() => handleClick("apiKey")}>Set ApiKey</Button>
+                    <Input id="apiKey"/>
+                    <Button onClick={() => handleClick("apiKey")}>Change ApiKey</Button>
                     </div>
+                    <p className="text-xs">Current ApiKey: {apiKey}</p>
                 </div>
                 </CardContent>
     </Card>

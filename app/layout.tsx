@@ -42,7 +42,7 @@ export default function RootLayout({
         <SidebarProvider>
           <AppSidebar />
           <SidebarTrigger className="m-4" />
-          <main className="flex-1 my-12 mr-12">
+          <main className="flex-1 py-12 pr-12">
 
             <ThemeProvider attribute="class" defaultTheme="dark" enableSystem disableTransitionOnChange>
               {children}

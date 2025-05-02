@@ -1,25 +1,27 @@
-"use client"
-import { useEffect, useState } from "react";
+import { setCookie, getCookie } from "@/lib/apicalls";
+import { useState } from "react";
 
 export function useSettings() {
 
-    const [apiKey, setApiKey] = useState<string | null>("");
-    const [apiRateLimit, setApiRateLimit] = useState<number | null>(0);
+    const [apiKey, setApiKey] = useState<string | null>(null);
+    const [apiRateLimit, setApiRateLimit] = useState<number | null>(null);
 
-    useEffect(() => {
-        const storedKey = localStorage.getItem("apiKey");
-        if (storedKey !== null) setApiKey(storedKey);
+    const saveSetting = async (key: string, value: string) => {
+        const message = await setCookie(key, value);
+        console.log(message)
+        return true;
+    }
 
-        const storedRateLimit = localStorage.getItem("apiRateLimit");
-        if (storedRateLimit !== null) setApiRateLimit(Number(storedRateLimit));
-    }, []);
+        (async () => {
+            const cookieApiKey = await getCookie("apiKey");
+            const apiRateLimit = await getCookie("apiRateLimit");
+            setApiKey(cookieApiKey.value);
+            setApiRateLimit(Number(apiRateLimit.value));
+        })();
 
     return {
         apiKey, setApiKey,
         apiRateLimit, setApiRateLimit,
+        saveSetting
       }
-}
-
-export function saveToLocalStorage(key: string, value: string) {
-    localStorage.setItem(key, value);
 }

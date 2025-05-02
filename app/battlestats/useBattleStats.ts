@@ -1,7 +1,7 @@
 "use client";
 import { useEffect, useState } from "react";
-import { getFromUser } from "@/lib/apicalls";
-import { saveData, getDb, createDb, addObjectStores } from "@/lib/db";
+import { getCookie } from "@/lib/apicalls";
+import { saveData, getDb } from "@/lib/db";
 import { useLocalStorage } from "@/hooks/useLocalStorage";
 
 export function useBattleStats() {
@@ -47,24 +47,17 @@ export function useBattleStats() {
 
 
     useEffect(() => {
-      if (apiKey === null) {
-        console.log("apiKey noch nicht geladen");
-        return;
-      }
-    
-      // Gültiger String, aber leer
-      if (apiKey.trim() === "") {
-        console.log("apiKey ist leer");
-        return;
-      }
+
 
         (async () => {
-
+          const apiKey = await getCookie("apiKey")
           console.log(apiKey)
 
           const db = await getDb("MBTS");
           const iDBBattleStats = await db.get("battlestats", "battlestats");
-          const APIBattleStats = await getFromUser(apiKey, "battlestats");
+          const res = (await fetch('/api/torn/get-user-data?selection=battlestats'));
+          const APIBattleStats = await res.json();
+          console.log(APIBattleStats)
           const isSame = JSON.stringify(APIBattleStats) === JSON.stringify(iDBBattleStats);
 
           if (isSame) {

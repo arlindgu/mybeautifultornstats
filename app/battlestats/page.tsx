@@ -9,6 +9,9 @@ import {
 import { useBattleStats } from "./useBattleStats";
 import { toast } from "sonner";
 import { useEffect } from "react";
+import { delay, motion } from "framer-motion";
+import { useMotionValue, animate } from "framer-motion";
+import { useTransform } from "framer-motion";
 
 
 export default function WelcomePage() {
@@ -32,6 +35,7 @@ export default function WelcomePage() {
         { title: "Speed Modifier", value: statsModifier?.speedModifier ?? 0 },
         { title: "Dexterity Modifier", value: statsModifier?.dexterityModifier ?? 0 }
     ];
+
     let sumBattleStats = 0;
     for (let i = 0; i < battleStats.length; i++) {
         sumBattleStats += battleStats[i].value;
@@ -41,7 +45,6 @@ export default function WelcomePage() {
     for (let i = 0; i < battleStatsModifier.length; i++) {
         sumBattleStatsWithModifier += Math.round(((battleStats[i].value) * (battleStatsModifier[i].value / 100 + 1)));
     }
-
 
     useEffect(() => {
         if (toastMessage) {
@@ -63,9 +66,9 @@ export default function WelcomePage() {
                         </CardDescription>
                     </CardContent>
                 </Card>
-                
                 {battleStats.map((stat, index) => (
                     <Card className="col-span-1 row-span-1" key={index}>
+                    
                         <CardHeader>
                             <CardTitle>{stat.title}</CardTitle>
                         </CardHeader>
@@ -88,6 +91,7 @@ export default function WelcomePage() {
                         </CardContent>
                     </Card>
                 ))}
+
             </div>
     );
 }

@@ -44,6 +44,17 @@ export function AppSidebar() {
 
     const nestedMenu = [
         {
+            label: "Other",
+            categories: [
+                {
+                    label: "Resources",
+                    items: [
+                        { label: "Items", path: "/resources/items" },
+                    ]
+                }
+            ]
+        },
+        {
             label: "User Data",
             categories: [
                 {

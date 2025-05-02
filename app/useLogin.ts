@@ -1,17 +1,17 @@
 import { setCookie, getCookie } from "lib/apicalls"
 import { useRouter } from "next/navigation";
+import { useState } from "react";
 
 export function useLogin() {
   const route = useRouter();
+  const [message, setMessage] = useState<string>("");
 
   const login = async (key: string) => {
-    const data = await setCookie("apiKey", key); // Setze den Cookie mit dem API-Key
-    console.log(data);
-
-
+    await setCookie("apiKey", key); // Setze den Cookie mit dem API-Key
+    await setCookie("apiRateLimit", "60"); // Setze den Cookie mit dem API-Key
+    
     const test = await checkApiKey();
-    if (test) route.push("/dashboard");
-    return true;
+    if (test) route.push("/dashboard"); setMessage("Invalid API Key");
   };
 
   const getApiKey = async (key: string) => {
@@ -26,5 +26,5 @@ export function useLogin() {
     console.log(data);
     if (data.error) return false; else return true;
   }
-  return { login, getApiKey, checkApiKey };
+  return { login, getApiKey, checkApiKey, message };
 }

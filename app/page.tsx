@@ -5,11 +5,16 @@ import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { Loader2 } from "lucide-react"
 import { useEffect, useState } from "react";
 import { useLogin } from "./useLogin";
+import { toast } from "sonner";
 
 export default function Home() {
 
   const [inputApiKey, setInputApiKey] = useState<string>("");
-  const { login, getApiKey, checkApiKey } = useLogin();
+  const { login, getApiKey, message } = useLogin();
+
+  useEffect(() => {
+    toast(message)
+  }, [message]);
 
   useEffect(() => {
     (async () => {
@@ -18,7 +23,7 @@ export default function Home() {
   }, []);
 
   return (
-    <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
+    <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center h-full p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
       <main className="flex flex-col gap-[32px] row-start-2 items-center sm:items-start">
         <div className="flex flex-col items-center justify-center w-full" >
           <h1 className="text-6xl font-bold">MBTS</h1>
