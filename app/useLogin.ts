@@ -11,7 +11,7 @@ export function useLogin() {
     await setCookie("apiRateLimit", "60"); // Setze den Cookie mit dem API-Key
     
     const test = await checkApiKey();
-    if (test) route.push("/dashboard"); setMessage("Invalid API Key");
+    if (test) route.push("/dashboard"); setMessage("Login erfolgreich"); // Setze die Nachricht auf "Login erfolgreich"
   };
 
   const getApiKey = async (key: string) => {
