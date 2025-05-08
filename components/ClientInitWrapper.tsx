@@ -19,11 +19,8 @@ export function ClientInitWrapper({ children }: { children: React.ReactNode }) {
         console.log(err)
         setProgress(0)
       }
-      await new Promise(resolve => setTimeout(resolve, 1000))
       setProgress(75)
-      await new Promise(resolve => setTimeout(resolve, 1000))
       setProgress(100)
-      await new Promise(resolve => setTimeout(resolve, 1000))
       setReady(true)
     })()
   }, [])

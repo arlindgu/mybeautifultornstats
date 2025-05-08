@@ -1,5 +1,5 @@
 export interface BattleStats {
-    battlestats_id: number
+    id: number
     strength: number
     speed: number
     dexterity: number

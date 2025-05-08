@@ -25,6 +25,7 @@
     "dexie": "^4.0.11",
     "dexie-react-hooks": "^1.1.7",
     "framer-motion": "^12.10.4",
+    "hash-sum": "^2.0.0",
     "idb": "^8.0.2",
     "lucide-react": "^0.488.0",
     "motion": "^12.9.4",

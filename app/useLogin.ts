@@ -18,35 +18,8 @@ export function useLogin() {
       setMessage("Login erfolgreich"); // Setze die Nachricht auf "Login erfolgreich"
       const res = await fetch("/api/torn/get-user-data?selection=profile");
       const data = await res.json();
-      const userData = await db.profile.add({
-        name: data.name,
-        rank: data.rank,
-        level: data.level,
-        honor: data.honor,
-        gender: data.gender,
-        property: data.property,
-        signup: data.signup,
-        awards: data.awards,
-        friends: data.friends,
-        enemies: data.enemies,
-        forum_posts: data.forum_posts,
-        karma: data.karma,
-        age: data.age,
-        role: data.role,
-        donator: data.donator,
-        player_id: data.player_id,
-        property_id: data.property_id,
-        revivable: data.revivable,
-        profile_image: data.profile_image,
-        life: data.life,
-        status: data.status,
-        job: data.job,
-        faction: data.faction,
-        married: data.married,
-        basicicons: data.basicicons,
-        states: data.states,
-        last_action: data.last_action,
-        competition: data.competition,
+      const id = await db.profile.add({
+        ...data
       });
     }
     if (test) route.push("/dashboard"); setMessage("Login erfolgreich"); // Setze die Nachricht auf "Login erfolgreich"

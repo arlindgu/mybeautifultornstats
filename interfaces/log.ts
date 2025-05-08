@@ -1,5 +1,5 @@
-export interface Log {
-    logid:string,
+export interface Logs {
+    id:string,
     log: number,
     title: string,
     timestamp: number,
