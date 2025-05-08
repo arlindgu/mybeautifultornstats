@@ -4,11 +4,10 @@ const dbName = "MBTS";
 const storeNames = [
   "profile",
   "battlestats",
-  "employmentCompany"
+  "bounties"
 ]
 
 export async function initDatabase() {
-
   //check if database exists
   console.log("Checking if database exists");
   let db = await getDb(dbName);
@@ -18,6 +17,6 @@ export async function initDatabase() {
     console.log("Database created");
   } else {
     console.log("Database exists");
-    addObjectStores(dbName, storeNames)
+    await addObjectStores(dbName, storeNames)
   }
 }

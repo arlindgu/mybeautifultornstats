@@ -37,7 +37,7 @@ export async function getFromTorn(apikey: string, selection: string) {
 }
 
 // This function fetches the logs from the Torn API DE ISCH GUET! NÖD ALANGE)
-export async function getLogs(apikey: string, category: number, to: number) {
+export async function getLogsFromUser(apikey: string, category: number, to: number) {
   const res = await fetch(`https://api.torn.com/v2/user?selections=log&cat=${category}&to=${to}&striptags=false`, {
       method: "GET",
       headers: {

@@ -9,10 +9,6 @@ import {
 import { useBattleStats } from "./useBattleStats";
 import { toast } from "sonner";
 import { useEffect } from "react";
-import { delay, motion } from "framer-motion";
-import { useMotionValue, animate } from "framer-motion";
-import { useTransform } from "framer-motion";
-
 
 export default function WelcomePage() {
     

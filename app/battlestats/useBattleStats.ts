@@ -55,7 +55,7 @@ export function useBattleStats() {
 
           const db = await getDb("MBTS");
           const iDBBattleStats = await db.get("battlestats", "battlestats");
-          const res = (await fetch('/api/torn/get-user-data?selection=battlestats'));
+          const res = await fetch('/api/torn/get-user-data?selection=battlestats');
           const APIBattleStats = await res.json();
           console.log(APIBattleStats)
           const isSame = JSON.stringify(APIBattleStats) === JSON.stringify(iDBBattleStats);

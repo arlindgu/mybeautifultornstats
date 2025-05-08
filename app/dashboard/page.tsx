@@ -2,8 +2,6 @@
 import {
     Card,
     CardContent,
-    CardDescription,
-    CardFooter,
     CardHeader,
     CardTitle
 } from "@/components/ui/card"
@@ -26,7 +24,22 @@ export default function DashboardPage() {
         rank: "",
         friends: "",
         enemies: "",
-        awards: ""
+        awards: "",
+        job: {
+            job: "",
+            position: "",
+            company_id: "",
+            company_name:"",
+            company_type: "",
+        },
+        faction: {
+            position: "",
+            faction_id: "",
+            days_in_faction: "",
+            faction_name: "",
+            faction_tag: "",
+            faction_tag_image: "",
+        }
     })
 
     const profileStats = {
@@ -36,6 +49,8 @@ export default function DashboardPage() {
         Friends: profile.friends,
         Enemies: profile.enemies,
         Awards: profile.awards,
+        Job: profile.job.job,
+        Company: profile.job.company_name,
     }
 
     useEffect(() => {
@@ -71,6 +86,24 @@ export default function DashboardPage() {
                         </CardTitle>
                     ))}
                 </CardHeader>
+            </Card>
+            <Card>
+                <CardHeader>
+                    <CardTitle>Employment Status</CardTitle>
+                </CardHeader>
+                <CardContent className="flex flex-col">
+                    <span>{profile.job.company_name}</span>
+                    <span>{profile.job.position}</span>
+                </CardContent>
+            </Card>
+            <Card>
+                <CardHeader>
+                    <CardTitle>Faction</CardTitle>
+                </CardHeader>
+                <CardContent className="flex flex-col">
+                    <span>{profile.faction.faction_name}</span>
+                    <span>{profile.faction.position}</span>
+                </CardContent>
             </Card>
 
 

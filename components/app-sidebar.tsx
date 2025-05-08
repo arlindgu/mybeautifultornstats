@@ -23,6 +23,8 @@ import { initDatabase } from "@/lib/initDatabase"
 
 export function AppSidebar() {
 
+    initDatabase()
+
     const [profileName, setProfileName] = useState("")
 
     const simpleMenu = [
@@ -43,6 +45,18 @@ export function AppSidebar() {
     ];
 
     const nestedMenu = [
+        {
+            label: "Funny",
+            categories: [
+                {
+                    label: "Stats",
+                    items: [
+                        { label: "Bounties", path: "/funny/bounties" },
+                        { label: "Energy Log", path: "/fight/energy" },
+                    ]
+                }
+            ]
+        },
         {
             label: "Other",
             categories: [
@@ -87,21 +101,6 @@ export function AppSidebar() {
         }
     ];
 
-
-    useEffect(() => {
-        async function loadProfile() {
-            console.log("Loading profile from IndexedDB")
-            const db = await openDB('MBTS')
-            const profile = await db.get('profile', 'profile')
-            console.log(profile)
-            if (profile) {
-                setProfileName(`${profile.name} [${profile.player_id}]`)
-            }
-        }
-
-        loadProfile()
-    }, [])
-
     const router = useRouter()
 
     return (
@@ -110,7 +109,7 @@ export function AppSidebar() {
             <SidebarContent>
             <SidebarHeader>
                 <SidebarMenuButton className="h-fit" asChild>
-                    <Link id="nameandid" href="/settings" className="font-bold">{profileName}</Link>
+                    <Link id="nameandid" href="/settings" className="font-bold">App Settings</Link>
                 </SidebarMenuButton>
             </SidebarHeader>
             {simpleMenu.map((menu, index) => (
