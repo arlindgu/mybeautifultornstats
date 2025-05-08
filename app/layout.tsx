@@ -2,9 +2,11 @@ import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { ThemeProvider } from "@/components/theme-provider"
-import { SidebarProvider, SidebarTrigger, SidebarInset } from "@/components/ui/sidebar";
+import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
 import { AppSidebar  } from "@/components/app-sidebar";
 import { Toaster } from "@/components/ui/sonner"
+import { ClientInitWrapper } from "@/components/ClientInitWrapper";
+import { motion } from "framer-motion";
 
 
 
@@ -35,6 +37,8 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
 
+
+
   return (
     <html lang="en" suppressHydrationWarning>
       <body className={`${geistSans.variable} ${geistMono.variable} antialiased flex flex-col h-screen`}>
@@ -42,9 +46,10 @@ export default function RootLayout({
           <AppSidebar />
           <SidebarTrigger className="m-4" />
           <main className="flex-1 py-12 pr-12">
-
             <ThemeProvider attribute="class" defaultTheme="dark" enableSystem disableTransitionOnChange>
+            <ClientInitWrapper>
               {children}
+            </ClientInitWrapper>
             </ThemeProvider>
           </main>
         </SidebarProvider>

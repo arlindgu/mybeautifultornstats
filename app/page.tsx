@@ -12,6 +12,8 @@ export default function Home() {
   const [inputApiKey, setInputApiKey] = useState<string>("");
   const { login, getApiKey, message } = useLogin();
 
+  const [ready, setReady] = useState(false);
+
   useEffect(() => {
     toast(message)
   }, [message]);

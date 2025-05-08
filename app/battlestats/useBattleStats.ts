@@ -1,14 +1,13 @@
 "use client";
 import { useEffect, useState } from "react";
 import { getCookie } from "@/lib/apicalls";
-import { saveData, getDb } from "@/lib/db";
-import { useLocalStorage } from "@/hooks/useLocalStorage";
+
+import { useLiveQuery } from "dexie-react-hooks";
+import { db } from "@/lib/db";
 
 export function useBattleStats() {
     const [toastMessage, setToastMessage] = useState<string | null>("Checking for updates...");
-    const [apiKey] = useLocalStorage<string | null>("apiKey", null);
     
-
     const [stats, setStats] = useState<{
         strength: number  | null,
         defense: number | null,
@@ -47,18 +46,15 @@ export function useBattleStats() {
 
 
     useEffect(() => {
-
-
         (async () => {
           const apiKey = await getCookie("apiKey")
           console.log(apiKey)
 
-          const db = await getDb("MBTS");
-          const iDBBattleStats = await db.get("battlestats", "battlestats");
+          const iDBBattleStats = useLiveQuery(() => db.battlestats.toCollection().first());
           const res = await fetch('/api/torn/get-user-data?selection=battlestats');
           const APIBattleStats = await res.json();
           console.log(APIBattleStats)
-          const isSame = JSON.stringify(APIBattleStats) === JSON.stringify(iDBBattleStats);
+          const BattleStatsAPI = await db.battlestats.add({APIBattleStats});
 
           if (isSame) {
             setStatsModifiers({
@@ -100,11 +96,9 @@ export function useBattleStats() {
               dexterityInfo: APIBattleStats["dexterity_info"]
             });
             setToastMessage("API & iDB are NOT same, updating iDB values, using API values");
-            saveData("MBTS","battlestats", APIBattleStats, "battlestats");
-          }
         }
   
-      )();
+    })();
       }, [apiKey]);
   
     return {stats, statsInfo, statsModifier, toastMessage};

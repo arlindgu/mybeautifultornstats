@@ -1,41 +1,20 @@
-// lib/db.ts
-import { openDB } from "idb";
+import Dexie, { type EntityTable } from 'dexie';
+import type { Profile } from '@/interfaces/profile';
+import type { Log } from '@/interfaces/log';
+import { BattleStats } from '@/interfaces/battlestats';
 
-export async function createDb(name: string, version = 1) {
-  if (typeof window === "undefined") throw new Error("createDb can only be called in the browser.");
-  return openDB(name, version);
-}
+const db = new Dexie('MBTS') as Dexie & {
+  profile: EntityTable<Profile, 'player_id'>; // primary key
+  log: EntityTable<Log, 'logid'>; // primary key
+  battlestats: EntityTable<BattleStats, 'battlestats_id'>; // primary key
+};
 
-export async function addObjectStores(name: string, storeNames: string []) {
-  if (typeof window === "undefined") throw new Error("addObjectStores can only be called in the browser.");
+db.version(4).stores({
+  profile: 'player_id, name, level, rank, job.job, faction.faction_name',
+  log: 'log, timestamp',
+  battlestats: '++batlestats_id',
 
-  const db = await openDB(name);
-  const newVersion = db.version + 1;
-  db.close();
+  // du kannst hier zusätzliche Indizes angeben, z. B. level oder name
+});
 
-  return openDB(name, newVersion, {
-    upgrade(db) {
-      for (const storeName of storeNames) {
-        if (!db.objectStoreNames.contains(storeName)) {
-          db.createObjectStore(storeName);
-        }
-      }
-    },
-  });
-}
-
-export async function getDb(name: string) {
-  if (typeof window === "undefined") throw new Error("getDb can only be called in the browser.");
-
-  const dbs = await indexedDB.databases?.();
-  const exists = dbs?.some(db => db.name === name);
-
-  if (!exists) throw new Error(`DB '${name}' does not exist`);
-
-  return openDB(name);
-}
-
-export async function saveData(dbname: string, storeName: string, data: any, id: string) {
-  const db = await getDb(dbname);
-  await db.put(storeName, data, id);
-}
+export { db };

@@ -16,14 +16,11 @@ import {
 } from "@/components/ui/sidebar"
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "./ui/collapsible"
 import { ChevronDown, HandCoins, PersonStandingIcon, Dumbbell, Cog, Check, X, Building2 } from "lucide-react"
-import { useEffect, useState } from "react"
+import { useState } from "react"
 import { useRouter } from "next/navigation"
 import Link from "next/link"
-import { initDatabase } from "@/lib/initDatabase"
 
 export function AppSidebar() {
-
-    initDatabase()
 
     const [profileName, setProfileName] = useState("")
 
